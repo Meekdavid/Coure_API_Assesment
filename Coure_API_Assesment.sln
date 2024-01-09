@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33403.182
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coure_API_Assesment", "Coure_API_Assesment\Coure_API_Assesment.csproj", "{97423BD1-CB29-47E4-9030-7DA3482131FC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{97423BD1-CB29-47E4-9030-7DA3482131FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97423BD1-CB29-47E4-9030-7DA3482131FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97423BD1-CB29-47E4-9030-7DA3482131FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97423BD1-CB29-47E4-9030-7DA3482131FC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0A58FC72-7272-4F77-94C2-94075E6D6D16}
+	EndGlobalSection
+EndGlobal
