@@ -57,7 +57,6 @@ The API will be available at http://localhost:5000 (HTTP) and https://localhost:
 - **Install the .NET Core Hosting Bundle:** If not already installed, install from [here](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-aspnetcore-6.0.0-windows-hosting-bundle-installer)
 - **Configure the Application Pool:** In IIS Manager, access "Application Pools," right-click your site's associated pool, choose "Advanced Settings," and set ".NET CLR Version" to "No Managed Code."
 - **Test the API:** In IIS Manager, choose your site in the left pane, then click "Browse" to test your API in a web browser using the configured URL.
-- **Set Up CosmosDB using an Emulator:** Set up the CosmosDB using an Emulator, details can be found on the appsettings.json file.
 - **Troubleshoot:** In case of issues, check logs for errors and verify all required dependencies and configurations, including database connections and app settings.
 ### **N/B:** You can deploy the .NET Core API to various platforms based on your requirements: Azure App Service, AWS Lambda, Docker, Et Cetera.
 
