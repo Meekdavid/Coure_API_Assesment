@@ -4,6 +4,7 @@ using Coure_API_Assesment.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -18,6 +19,7 @@ namespace Coure_API_Assesment.Controllers
         private readonly ICountryRetreiver _countryRetreiver;
         public CountryController(ILogger<CountryController> logger, ICountryRetreiver countryRetreiver)
         {
+            //Inject dependencies
             _logger = logger;
             _countryRetreiver = countryRetreiver;
         }
@@ -38,6 +40,7 @@ namespace Coure_API_Assesment.Controllers
             {
                 //First check and validate input against attacks/injections
                 SanitizeInputs.ProcessObjectAgainstInputThreats(phoneNumber);
+                _logger.LogInformation($"Received request for retreiving country details for phone number: {phoneNumber}");
 
                 // Remove any non-digit characters
                 string cleanedNumber = new string(phoneNumber.Where(char.IsDigit).ToArray());
@@ -49,20 +52,31 @@ namespace Coure_API_Assesment.Controllers
 
                     var countryDetails = await _countryRetreiver.RetreiveDetails(countryCode, phoneNumber);
 
-                    response.responseCode = "00";
-                    response.responseMessage = $"Request Successful";
-                    response.Output = countryDetails;
+                    if (countryDetails != null)
+                    {
+                        response.responseCode = "00";
+                        response.responseMessage = $"Request Successful";
+                        response.Output = countryDetails;
+                        _logger.LogInformation($"Country information for phone number: {phoneNumber} sucessfully retreived");
+                    }
+                    else
+                    {
+                        response.responseCode = "01";
+                        response.responseMessage = $"An error occured, contact the administrators";
+                    }
                 }
                 else
                 {
                     response.responseCode = "01";
-                    response.responseMessage = $"Country code not found in the phone number";                    
+                    response.responseMessage = $"Country code not found in the phone number";
+                    _logger.LogInformation($"Unable to retreived country code for phone number: {phoneNumber}");
                 }
             }
             catch(Exception ex)
             {
                 response.responseCode = "02";
                 response.responseMessage = $"An Error Occured: {ex.Message}";
+                _logger.LogInformation($" An exception occured while retreiving details for number: {phoneNumber}\r\n {JsonConvert.SerializeObject(ex)}");
             }
             return StatusCode(returnHttpStatusCode, response);
         }

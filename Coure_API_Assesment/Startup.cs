@@ -1,3 +1,4 @@
+using Coure_API_Assesment.Helpers.ValidationFilter;
 using Coure_API_Assesment.Interfaces;
 using Coure_API_Assesment.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -29,8 +30,14 @@ namespace Coure_API_Assesment
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CORSPolicy", builder =>
+                {
+                    builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+                });
+            });
 
-            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -42,11 +49,19 @@ namespace Coure_API_Assesment
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
 
-            services.AddControllers()
+            services.AddControllers(opt =>
+            {
+                opt.Filters.Add(typeof(ValidationActionFilter));
+                opt.ReturnHttpNotAcceptable = false;
+            })
             .AddNewtonsoftJson(opt =>
             {
                 opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Error;
+            })
+            .ConfigureApiBehaviorOptions(opt =>
+            {
+                opt.SuppressModelStateInvalidFilter = true;
             });
 
             services.AddScoped<ICountryRetreiver, CountryRetreiver>();
@@ -65,7 +80,7 @@ namespace Coure_API_Assesment
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors("CORSPolicy");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
